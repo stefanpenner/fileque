@@ -1,0 +1,11 @@
+
+gemify
+
+docs
+
+Later
+later, consistency check (lock queue, date and time, no files in future, no dups)
+Build a file lock class and test units for it
+SQLLite 3
+Determine how to handle errors (find_error, reset, reset_error -> move to queue)
+
