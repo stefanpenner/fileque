@@ -47,7 +47,7 @@ module Xxeo
           @@config_path = options[:config_path] || ('./config/fileq.yml')
           @@config = YAML.load_file(@@config_path)
           # USe 
-          path = @@config[name][options[:env]]['pathname']
+          path = eval('"' + @@config[name][options[:env]]['pathname'] + '"')
 
           # TODO
           # If it is an expression, evaluate the env var
