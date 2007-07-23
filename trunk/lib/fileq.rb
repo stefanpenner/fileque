@@ -1,23 +1,18 @@
 # FileQ 
-# Specify this act if you want changes to your model to be saved in an
-# audit table.  This assumes there is an audits table ready.
 #
-#   class User < ActiveRecord::Base
-#     acts_as_audited
-#   end
+# This is a class which manages an on-disk/persistent, ordered, queue.
+# You can insert data or files into the queue.
 #
-# See <tt>CollectiveIdea::Acts::Audited::ClassMethods#acts_as_audited</tt>
-# for configuration options
-#http://rails.techno-weenie.net/tip/2005/11/19/validate_your_forms_with_a_table_less_model
-#http://lists.vanruby.com/pipermail/discuss/2006-January/000050.html
-
-# class Order < InActiveRecord
-# column :id,            :integer
-# column :name,       :string
-# column :address,    :string
-#  ...
-#  validates_presence_of :name, :address ....
+#   In Process A (for example a mongrel)
+#   fq = FileQ.initialize('/path/to/que')
+#   fq.insert_file('/path/to/file')
+#   <watching process or fork/exec worker process>
 #
+#   In Process B (worker process)
+#   fq = FileQ.initialize('/path/to/que')
+#   job = fq.pull_job(job_id if provided, or nil for oldest job)
+#   <memory/cpu intense work>
+#   job.mark_as_done
 #
 
 require 'yaml'
@@ -52,7 +47,7 @@ module Xxeo
           @@config_path = options[:config_path] || ('./config/fileq.yml')
           @@config = YAML.load_file(@@config_path)
           # USe 
-          path = @@config['name'][options[:env]]['pathname']
+          path = @@config[name][options[:env]]['pathname']
 
           # TODO
           # If it is an expression, evaluate the env var
