@@ -302,8 +302,10 @@ module Xxeo
     def create_queue_dirs
       files_for_store.map {
         | e |
-        FileUtils.mkdir(@dir + '/' + e[0]) if e[1] == 'd'
-        FileUtils.touch(@dir + '/' + e[0]) if e[1] == 'w'
+        path = @dir + '/' + e[0]
+        next if File.exists? path
+        FileUtils.mkdir(path) if e[1] == 'd'
+        FileUtils.touch(path) if e[1] == 'w'
       }
     end
 
