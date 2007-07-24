@@ -1,5 +1,4 @@
-# FileQ
-
+# FileQ 
 require 'yaml'
 #require 'fcntl'
 
@@ -145,15 +144,22 @@ module Xxeo
     end
 
     def mark_done
-      raise WrongStatus.new('cannot log on non-owned job') unless @own
+      raise WrongStatus.new('cannot mark job as done on non-owned job') unless @own
       status_mesg = "finishing"
       @fq.mark_job_done(self)
     end
 
     def mark_error
-      raise WrongStatus.new('cannot log on non-owned job') unless @own
+      raise WrongStatus.new('cannot mark job as error on non-owned job') unless @own
       status_mesg = "finishing"
       @fq.mark_job_error(self)
+    end
+
+    def reinsert
+      raise WrongStatus.new('cannot reinsert on non-owned job') unless @own
+      status_mesg = "reinserting"
+      log("reinserting job")
+      @fq.reinsert_job(self)
     end
 
     private

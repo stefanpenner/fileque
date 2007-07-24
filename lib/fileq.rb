@@ -264,6 +264,28 @@ module Xxeo
       return job
     end
 
+    # The assumption here is that this is for testing or that
+    # this process couldn't handle the job and it has been
+    # changed so another script could handle the job. Otherwise,
+    # an infinite loop is created with this method
+    def reinsert_job(job = nil)
+      throw ArgumentError unless job
+      throw ArgumentError unless job.own?
+      lock
+      # TODO: handle other job types later
+      if internal_job_exists?('run', job.name)
+        # Move to que
+        job.disown
+        FileUtils.mv(@dir + '/run/' + job.name, @dir + '/que/' + job.name)
+        job.set_status(@dir + '/que/' + job.name, ST_QUEUED)
+      else
+        log('attemped to reinsert job that could not be found: ' + job.name)
+        job = nil
+      end
+      unlock
+      return job
+    end
+
     def files_for_store
       d = [
         ['', 'd'],

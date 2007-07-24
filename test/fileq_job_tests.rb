@@ -107,6 +107,19 @@ class FileQJobTests < Test::Unit::TestCase
     assert_equal(2, @fq.length)
   end
 
+  def test_reinsert
+    @job1.pull
+    @job1.reinsert
+
+    assert_equal(@job1.status, Xxeo::ST_QUEUED)
+    assert_equal(@job2.status, Xxeo::ST_QUEUED)
+    assert_equal(@job3.status, Xxeo::ST_QUEUED)
+
+    assert_equal({:que => 3 }, @fq.all_lengths)
+
+    assert_equal(3, @fq.length)
+  end
+
   def test_owning_pid1
     @job1.pull
 
