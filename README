@@ -1,11 +1,14 @@
-FileQ
+NamedPipe
 ==============
 
-A class that manages a simple queue on a typical
-Unix based filesystem. Insert data or items into
-the Queue, pull the items out in the same order.
+A class that manages a simple named-pipe resource
+on a Unix filesystem. This class is essentially a
+nice abstraction over the "easy to forget" details
+of working with named pipes on that 30 year old 
+API we call Unix.
+
 The system is designed to be resilient and safe
-for multi-process use. Eventually, it will be used
+for multi-process use. It is meant to be used
 as a component in a larger project.
 
 
