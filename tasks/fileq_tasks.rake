@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :xyz do
+# task :inactiverecord do
 #   # Task goes here
 # end
