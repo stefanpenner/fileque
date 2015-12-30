@@ -1,0 +1,6 @@
+A class that manages a simple queue on a typical
+Unix based filesystem. Insert data or items into
+the Queue, pull the items out in the same order.
+The system is designed to be resilient and safe
+for multi-process use. Eventually, it will be used
+as a component in a larger project.
